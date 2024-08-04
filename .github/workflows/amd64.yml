@@ -24,7 +24,6 @@ jobs:
       run: |
         images="${{ github.event.inputs.docker_images }}"
         IFS=',' read -r -a image_array <<< "$images"
-        echo ${{ secrets.DOCKER_USER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER_NAME }} --password-stdin
         for image in "${image_array[@]}"; do
           docker pull "${image}" --platform "linux/amd64"
           docker save "${image}" -o "${image//\//_}-amd64.tar"
